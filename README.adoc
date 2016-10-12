@@ -1,0 +1,59 @@
+Extended Semantics for Topic Subscriptions in AMQP: A Proposal
+==============================================================
+
+Examples
+--------
+
+The broker.py script implements a very simplistic pub-sub broker
+against which the following examples can be run:
+
+a.py:: A simple non-shared, non-durable subscriber. Multiple instances
+can be run concurrently and each should get all messages. When not
+attached, no messages are stored.
+
+b.py:: A non-shared, durable subscriber with a container scoped
+subscription identifier. Only one instance of the subscriber can be
+run at a time with the default settings. However the container-id or
+the subscription-id can be changed via command line arguments to cause
+a different subscription to be used.
+
+c.py:: A non-shared, durable subscriber with a global subscription
+identifier. Only one instance of the subscriber can be run at a time
+with the default settings. However the subscription-id can be changed
+via a command line argument to cause a different subscription to be
+used. The container id can also be explicitly set through a command
+line argument, but this will not affect the subscription attached to.
+
+d.py:: A shared, non-durable subscriber with a container scoped
+subscription identifier. Multiple instances can be attached to the
+same subscription at one time and the messages for that subscription
+should be divided between them. To attach to the subscription the same
+container id and link name[1] must be used. If there are no active
+consumers attached to the subscription, it is deleted and messages are
+not stored for it.
+
+e.py:: A shared, non-durable subscriber with a global subscription
+identifier. Multiple instances can be attached to the same
+subscription at one time and the messages for that subscription should
+be divided between them. To attach to the subscription only the link
+name is considered.
+
+f.py:: A shared, durable subscriber with a container scoped
+subscription identifier. Multiple instances can be attached to the
+same subscription at one time and the messages for that subscription
+should be divided between them. The subscription can survive the
+detachment of all active consumers and will continue to store
+messages.
+
+g.py:: A shared, durable subscriber with a global subscription
+identifier. Multiple instances can be attached to the same
+subscription at one time and the messages for that subscription should
+be divided between them. To attach to the subscription only the link
+name is considered. Again, the subscription can survive the detachment
+of all active consumers and will continue to store messages.
+
+
+[1] A link name may have a special suffix added to ensure uniqueness
+without altering the subscription it identifies. For the purposes of
+identifying a subscription, anything after and including a '!'
+character in the link name is ignored.
