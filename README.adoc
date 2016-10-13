@@ -34,26 +34,26 @@ not stored for it.
 
 e.py:: A shared, non-durable subscriber with a global subscription
 identifier. Multiple instances can be attached to the same
-subscription at one time and the messages for that subscription should
+subscription at one time[1] and the messages for that subscription should
 be divided between them. To attach to the subscription only the link
 name is considered.
 
 f.py:: A shared, durable subscriber with a container scoped
 subscription identifier. Multiple instances can be attached to the
-same subscription at one time and the messages for that subscription
+same subscription at one time[1] and the messages for that subscription
 should be divided between them. The subscription can survive the
 detachment of all active consumers and will continue to store
 messages.
 
 g.py:: A shared, durable subscriber with a global subscription
 identifier. Multiple instances can be attached to the same
-subscription at one time and the messages for that subscription should
+subscription at one time[1] and the messages for that subscription should
 be divided between them. To attach to the subscription only the link
 name is considered. Again, the subscription can survive the detachment
 of all active consumers and will continue to store messages.
 
 
 [1] A link name may have a special suffix added to ensure uniqueness
-without altering the subscription it identifies. For the purposes of
-identifying a subscription, anything after and including a '!'
-character in the link name is ignored.
+for a given container-id(/connection) without altering the subscription it
+identifies. For the purposes of identifying a subscription, anything after
+and including a '!' character in the link name is ignored.
