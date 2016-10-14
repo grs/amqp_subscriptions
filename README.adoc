@@ -5,7 +5,11 @@ Examples
 --------
 
 The broker.py script implements a very simplistic pub-sub broker
-against which the following examples can be run:
+against which the different subscriber examples can be run. There is
+also a simple publisher example called send.py which takes the
+messages to publish as command line arguments.
+
+The subscriber examples are as follows:
 
 a.py:: A simple non-shared, non-durable subscriber. Multiple instances
 can be run concurrently and each should get all messages. When not
@@ -57,3 +61,58 @@ of all active consumers and will continue to store messages.
 for a given container-id(/connection) without altering the subscription it
 identifies. For the purposes of identifying a subscription, anything after
 and including a '!' character in the link name is ignored.
+
+Code Snippets
+-------------
+
+simple non-shared, non-durable subscriber:
+
+[source,python,indent=0]
+----
+include::a.py[lines=36]
+----
+
+non-shared, durable subscriber with a container scoped subscription
+identifier:
+
+[source,python,indent=0]
+----
+include::b.py[lines=38..39]
+----
+
+non-shared, durable subscriber with a global subscription identifier:
+
+[source,python,indent=0]
+----
+include::c.py[lines=41]
+----
+
+shared, non-durable subscriber with a container scoped subscription
+identifier:
+
+[source,python,indent=0]
+----
+include::d.py[lines=39..40]
+----
+
+shared, non-durable subscriber with a global subscription identifier:
+
+[source,python,indent=0]
+----
+include::e.py[lines=41]
+----
+
+shared, durable subscriber with a container scoped subscription
+identifier:
+
+[source,python,indent=0]
+----
+include::f.py[lines=39..40]
+----
+
+shared, durable subscriber with a global subscription identifier:
+
+[source,python,indent=0]
+----
+include::g.py[lines=41]
+----
