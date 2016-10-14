@@ -116,3 +116,107 @@ shared, durable subscriber with a global subscription identifier:
 ----
 event.container.create_receiver(self.url, name=self.subscription, options=[Capabilities(['global', 'shared']), DurableSubscription()])
 ----
+
+Protocol Traces
+---------------
+
+simple non-shared, non-durable subscriber:
+
+----
+[0x561c9a1a2b40]:  -> AMQP
+[0x561c9a1a2b40]:0 -> @open(16) [container-id="b4f238f2-cdfa-4fb7-9c1b-3ab4680debd8", hostname="localhost", channel-max=32767]
+[0x561c9a1a2b40]:0 -> @begin(17) [next-outgoing-id=0, incoming-window=2147483647, outgoing-window=2147483647]
+[0x561c9a1a2b40]:0 -> @attach(18) [name="b4f238f2-cdfa-4fb7-9c1b-3ab4680debd8-examples", handle=0, role=true, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=0, timeout=0, dynamic=false], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+[0x561c9a1a2b40]:0 -> @flow(19) [incoming-window=2147483647, next-outgoing-id=0, outgoing-window=2147483647, handle=0, delivery-count=0, link-credit=10, drain=false]
+[0x561c9a1a2b40]:  <- AMQP
+[0x561c9a1a2b40]:0 <- @open(16) [container-id="Router.A", max-frame-size=16384, channel-max=32767, idle-time-out=8000, offered-capabilities=:"ANONYMOUS-RELAY", properties={:product="qpid-dispatch-router", :version="0.7.0"}]
+[0x561c9a1a2b40]:0 <- @begin(17) [remote-channel=0, next-outgoing-id=0, incoming-window=61, outgoing-window=2147483647]
+[0x561c9a1a2b40]:0 <- @attach(18) [name="b4f238f2-cdfa-4fb7-9c1b-3ab4680debd8-examples", handle=0, role=false, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=0, timeout=0, dynamic=false], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+----
+
+non-shared, durable subscriber with a container scoped subscription
+identifier:
+
+----
+[0x55b58daf7300]:  -> AMQP
+[0x55b58daf7300]:0 -> @open(16) [container-id="client-b", hostname="localhost", channel-max=32767]
+[0x55b58daf7300]:0 -> @begin(17) [next-outgoing-id=0, incoming-window=2147483647, outgoing-window=2147483647]
+[0x55b58daf7300]:0 -> @attach(18) [name="subscription-b", handle=0, role=true, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=2, expiry-policy=:never, timeout=0, dynamic=false], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+[0x55b58daf7300]:0 -> @flow(19) [incoming-window=2147483647, next-outgoing-id=0, outgoing-window=2147483647, handle=0, delivery-count=0, link-credit=10, drain=false]
+[0x55b58daf7300]:  <- AMQP
+[0x55b58daf7300]:0 <- @open(16) [container-id="Router.A", max-frame-size=16384, channel-max=32767, idle-time-out=8000, offered-capabilities=:"ANONYMOUS-RELAY", properties={:product="qpid-dispatch-router", :version="0.7.0"}]
+[0x55b58daf7300]:0 <- @begin(17) [remote-channel=0, next-outgoing-id=0, incoming-window=61, outgoing-window=2147483647]
+[0x55b58daf7300]:0 <- @attach(18) [name="subscription-b", handle=0, role=false, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=2, expiry-policy=:never, timeout=0, dynamic=false], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+----
+
+non-shared, durable subscriber with a global subscription identifier:
+
+----
+[0x557eab0b2b70]:  -> AMQP
+[0x557eab0b2b70]:0 -> @open(16) [container-id="58b89233-84ac-48bb-a543-840f3222e03a", hostname="localhost", channel-max=32767]
+[0x557eab0b2b70]:0 -> @begin(17) [next-outgoing-id=0, incoming-window=2147483647, outgoing-window=2147483647]
+[0x557eab0b2b70]:0 -> @attach(18) [name="subscription-c", handle=0, role=true, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=2, expiry-policy=:never, timeout=0, dynamic=false, capabilities=:global], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+[0x557eab0b2b70]:0 -> @flow(19) [incoming-window=2147483647, next-outgoing-id=0, outgoing-window=2147483647, handle=0, delivery-count=0, link-credit=10, drain=false]
+[0x557eab0b2b70]:  <- AMQP
+[0x557eab0b2b70]:0 <- @open(16) [container-id="Router.A", max-frame-size=16384, channel-max=32767, idle-time-out=8000, offered-capabilities=:"ANONYMOUS-RELAY", properties={:product="qpid-dispatch-router", :version="0.7.0"}]
+[0x557eab0b2b70]:0 <- @begin(17) [remote-channel=0, next-outgoing-id=0, incoming-window=61, outgoing-window=2147483647]
+[0x557eab0b2b70]:0 <- @attach(18) [name="subscription-c", handle=0, role=false, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=2, expiry-policy=:never, timeout=0, dynamic=false, capabilities=:global], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+----
+
+
+shared, non-durable subscriber with a container scoped subscription
+identifier:
+
+----
+[0x563fded6bb40]:  -> AMQP
+[0x563fded6bb40]:0 -> @open(16) [container-id="client-d", hostname="localhost", channel-max=32767]
+[0x563fded6bb40]:0 -> @begin(17) [next-outgoing-id=0, incoming-window=2147483647, outgoing-window=2147483647]
+[0x563fded6bb40]:0 -> @attach(18) [name="subscription-d", handle=0, role=true, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=0, timeout=0, dynamic=false, capabilities=:shared], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+[0x563fded6bb40]:0 -> @flow(19) [incoming-window=2147483647, next-outgoing-id=0, outgoing-window=2147483647, handle=0, delivery-count=0, link-credit=10, drain=false]
+[0x563fded6bb40]:  <- AMQP
+[0x563fded6bb40]:0 <- @open(16) [container-id="Router.A", max-frame-size=16384, channel-max=32767, idle-time-out=8000, offered-capabilities=:"ANONYMOUS-RELAY", properties={:product="qpid-dispatch-router", :version="0.7.0"}]
+[0x563fded6bb40]:0 <- @begin(17) [remote-channel=0, next-outgoing-id=0, incoming-window=61, outgoing-window=2147483647]
+[0x563fded6bb40]:0 <- @attach(18) [name="subscription-d", handle=0, role=false, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=0, timeout=0, dynamic=false, capabilities=:shared], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+----
+
+shared, non-durable subscriber with a global subscription identifier:
+
+----
+[0x55a5ee6deb70]:  -> AMQP
+[0x55a5ee6deb70]:0 -> @open(16) [container-id="a0858d9e-a44e-4aff-a1f8-049d53361a7c", hostname="localhost", channel-max=32767]
+[0x55a5ee6deb70]:0 -> @begin(17) [next-outgoing-id=0, incoming-window=2147483647, outgoing-window=2147483647]
+[0x55a5ee6deb70]:0 -> @attach(18) [name="subscription-e", handle=0, role=true, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=0, timeout=0, dynamic=false, capabilities=[:global, :shared]], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+[0x55a5ee6deb70]:0 -> @flow(19) [incoming-window=2147483647, next-outgoing-id=0, outgoing-window=2147483647, handle=0, delivery-count=0, link-credit=10, drain=false]
+[0x55a5ee6deb70]:  <- AMQP
+[0x55a5ee6deb70]:0 <- @open(16) [container-id="Router.A", max-frame-size=16384, channel-max=32767, idle-time-out=8000, offered-capabilities=:"ANONYMOUS-RELAY", properties={:product="qpid-dispatch-router", :version="0.7.0"}]
+[0x55a5ee6deb70]:0 <- @begin(17) [remote-channel=0, next-outgoing-id=0, incoming-window=61, outgoing-window=2147483647]
+[0x55a5ee6deb70]:0 <- @attach(18) [name="subscription-e", handle=0, role=false, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=0, timeout=0, dynamic=false, capabilities=[:global, :shared]], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+----
+
+shared, durable subscriber with a container scoped subscription
+identifier:
+
+----
+[0x55c91f8b7b40]:  -> AMQP
+[0x55c91f8b7b40]:0 -> @open(16) [container-id="client-f", hostname="localhost", channel-max=32767]
+[0x55c91f8b7b40]:0 -> @begin(17) [next-outgoing-id=0, incoming-window=2147483647, outgoing-window=2147483647]
+[0x55c91f8b7b40]:0 -> @attach(18) [name="subscription-f", handle=0, role=true, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=2, expiry-policy=:never, timeout=0, dynamic=false, capabilities=:shared], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+[0x55c91f8b7b40]:0 -> @flow(19) [incoming-window=2147483647, next-outgoing-id=0, outgoing-window=2147483647, handle=0, delivery-count=0, link-credit=10, drain=false]
+[0x55c91f8b7b40]:  <- AMQP
+[0x55c91f8b7b40]:0 <- @open(16) [container-id="Router.A", max-frame-size=16384, channel-max=32767, idle-time-out=8000, offered-capabilities=:"ANONYMOUS-RELAY", properties={:product="qpid-dispatch-router", :version="0.7.0"}]
+[0x55c91f8b7b40]:0 <- @begin(17) [remote-channel=0, next-outgoing-id=0, incoming-window=61, outgoing-window=2147483647]
+[0x55c91f8b7b40]:0 <- @attach(18) [name="subscription-f", handle=0, role=false, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=2, expiry-policy=:never, timeout=0, dynamic=false, capabilities=:shared], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+----
+
+shared, durable subscriber with a global subscription identifier:
+
+----
+[0x5634e14ddff0]:  -> AMQP
+[0x5634e14ddff0]:0 -> @open(16) [container-id="58e4c34e-1c25-4270-847a-28786682cf3d", hostname="localhost", channel-max=32767]
+[0x5634e14ddff0]:0 -> @begin(17) [next-outgoing-id=0, incoming-window=2147483647, outgoing-window=2147483647]
+[0x5634e14ddff0]:0 -> @attach(18) [name="subscription-g", handle=0, role=true, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=2, expiry-policy=:never, timeout=0, dynamic=false, capabilities=[:global, :shared]], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+[0x5634e14ddff0]:0 -> @flow(19) [incoming-window=2147483647, next-outgoing-id=0, outgoing-window=2147483647, handle=0, delivery-count=0, link-credit=10, drain=false]
+[0x5634e14ddff0]:  <- AMQP
+[0x5634e14ddff0]:0 <- @open(16) [container-id="Router.A", max-frame-size=16384, channel-max=32767, idle-time-out=8000, offered-capabilities=:"ANONYMOUS-RELAY", properties={:product="qpid-dispatch-router", :version="0.7.0"}]
+[0x5634e14ddff0]:0 <- @begin(17) [remote-channel=0, next-outgoing-id=0, incoming-window=61, outgoing-window=2147483647]
+[0x5634e14ddff0]:0 <- @attach(18) [name="subscription-g", handle=0, role=false, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=2, expiry-policy=:never, timeout=0, dynamic=false, capabilities=[:global, :shared]], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]----

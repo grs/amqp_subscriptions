@@ -18,11 +18,12 @@
 # under the License.
 #
 
+from proton import symbol
 from proton.reactor import LinkOption
 
 class Capabilities(LinkOption):
     def __init__(self, capabilities):
-        self.capabilities = capabilities
+        self.capabilities = [symbol(c) for c in capabilities]
 
     def apply(self, link):
         link.source.capabilities.put_object(self.capabilities)
