@@ -69,7 +69,7 @@ simple non-shared, non-durable subscriber:
 
 [source,python,indent=0]
 ----
-include::a.py[lines=36]
+event.container.create_receiver(self.url)
 ----
 
 non-shared, durable subscriber with a container scoped subscription
@@ -77,14 +77,14 @@ identifier:
 
 [source,python,indent=0]
 ----
-include::b.py[lines=38..39]
+event.container.create_receiver(self.url, name=self.subscription, options=[DurableSubscription()])
 ----
 
 non-shared, durable subscriber with a global subscription identifier:
 
 [source,python,indent=0]
 ----
-include::c.py[lines=41]
+event.container.create_receiver(self.url, name=self.subscription, options=[DurableSubscription(), Capabilities('global')])
 ----
 
 shared, non-durable subscriber with a container scoped subscription
@@ -92,14 +92,14 @@ identifier:
 
 [source,python,indent=0]
 ----
-include::d.py[lines=39..40]
+event.container.create_receiver(self.url, name=self.subscription, options=[Capabilities('shared')])
 ----
 
 shared, non-durable subscriber with a global subscription identifier:
 
 [source,python,indent=0]
 ----
-include::e.py[lines=41]
+event.container.create_receiver(self.url, name=self.subscription, options=[Capabilities(['global', 'shared'])])
 ----
 
 shared, durable subscriber with a container scoped subscription
@@ -107,12 +107,12 @@ identifier:
 
 [source,python,indent=0]
 ----
-include::f.py[lines=39..40]
+event.container.create_receiver(self.url, name=self.subscription, options=[Capabilities('shared'), DurableSubscription()])
 ----
 
 shared, durable subscriber with a global subscription identifier:
 
 [source,python,indent=0]
 ----
-include::g.py[lines=41]
+event.container.create_receiver(self.url, name=self.subscription, options=[Capabilities(['global', 'shared']), DurableSubscription()])
 ----
