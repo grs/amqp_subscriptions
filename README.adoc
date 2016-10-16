@@ -1,6 +1,5 @@
 Extended Semantics for Topic Subscriptions in AMQP: A Proposal
 ==============================================================
-
 :toc:
 
 Description
