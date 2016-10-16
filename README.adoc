@@ -1,6 +1,39 @@
 Extended Semantics for Topic Subscriptions in AMQP: A Proposal
 ==============================================================
 
+:toc:
+
+Description
+-----------
+
+A subscription is identified by the link name.
+
+The subscription identity can be scoped to the AMQP container -
+i.e. it is unique with the scope of connections with the same
+container id specified on open - or it can be global, in which case
+the identity is independent of the container id.
+
+A global subscription identity is indicated by adding the symbol
+'global' to the capabilities for the source.
+
+A subscription may be shared by more than one consuming link. In this
+case, the messages for the subscription are distributed between all
+the consuming links. To indicate that the link is shared the 'shared'
+symbol is added to the capabilities for the source.
+
+AMQP requires that link names are unique within the scope of a
+container, identified by the container id specified in the open
+frame. In order to allow multiple links consuming from the same
+subscription over connections with the same container id, we propose a
+scheme by which such links can be disambiguated while retaining their
+ability to identify the same subscription. In this scheme, only the
+part of the link name up to (but excluding) the '!' character is used
+for establishing the idenity of the subscription the link refers
+to. E.g. the link names mysub!foo and mysub!bar would both be
+interpreted as referencing the subscription named 'mysub' (which could
+be global or container scoped), but as the two names are different
+they could be used on the same connection.
+
 Examples
 --------
 
@@ -219,4 +252,5 @@ shared, durable subscriber with a global subscription identifier:
   <- AMQP
 0 <- @open(16) [container-id="Router.A", max-frame-size=16384, channel-max=32767, idle-time-out=8000, offered-capabilities=:"ANONYMOUS-RELAY", properties={:product="qpid-dispatch-router", :version="0.7.0"}]
 0 <- @begin(17) [remote-channel=0, next-outgoing-id=0, incoming-window=61, outgoing-window=2147483647]
-0 <- @attach(18) [name="subscription-g", handle=0, role=false, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=2, expiry-policy=:never, timeout=0, dynamic=false, capabilities=[:global, :shared]], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]----
+0 <- @attach(18) [name="subscription-g", handle=0, role=false, snd-settle-mode=2, rcv-settle-mode=0, source=@source(40) [address="examples", durable=2, expiry-policy=:never, timeout=0, dynamic=false, capabilities=[:global, :shared]], target=@target(41) [durable=0, timeout=0, dynamic=false], initial-delivery-count=0]
+----
