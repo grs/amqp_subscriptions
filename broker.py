@@ -44,7 +44,7 @@ def is_durable(link):
     return link.remote_source.durability == Terminus.DELIVERIES
 
 def get_unqualified(name):
-    i = name.find("!")
+    i = name.find("|")
     if i > 0:
         return name[:i]
     else:
