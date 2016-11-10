@@ -13,7 +13,7 @@ container id specified on open - or it can be global, in which case
 the identity is independent of the container id.
 
 A global subscription identity is indicated by adding the symbol
-'global' to the capabilities for the source.
+\'global\' to the capabilities for the source.
 
 A subscription may be shared by more than one consuming link. In this
 case, the messages for the subscription are distributed between all
@@ -26,7 +26,7 @@ frame. In order to allow multiple links consuming from the same
 subscription over connections with the same container id, we propose a
 scheme by which such links can be disambiguated while retaining their
 ability to identify the same subscription. In this scheme, only the
-part of the link name up to (but excluding) the '|' character is used
+part of the link name up to (but excluding) the \'|\' character is used
 for establishing the idenity of the subscription the link refers
 to. E.g. the link names mysub|foo and mysub|bar would both be
 interpreted as referencing the subscription named 'mysub' (which could
@@ -92,7 +92,7 @@ of all active consumers and will continue to store messages.
 [1] A link name may have a special suffix added to ensure uniqueness
 for a given container-id(/connection) without altering the subscription it
 identifies. For the purposes of identifying a subscription, anything after
-and including a '|' character in the link name is ignored.
+and including a \'|\' character in the link name is ignored.
 
 Code Snippets
 -------------
