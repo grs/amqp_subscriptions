@@ -18,7 +18,7 @@
 # under the License.
 #
 
-from proton import symbol
+from proton import Array, Data, symbol, UNDESCRIBED
 from proton.reactor import LinkOption
 
 class Capabilities(LinkOption):
@@ -26,4 +26,4 @@ class Capabilities(LinkOption):
         self.capabilities = [symbol(c) for c in capabilities]
 
     def apply(self, link):
-        link.source.capabilities.put_object(self.capabilities)
+        link.source.capabilities.put_object(Array(UNDESCRIBED, Data.SYMBOL, *self.capabilities))
